@@ -1,0 +1,119 @@
+.chatMessages {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #f4f6fa;
+  border-left: 1px solid #e0e7ef;
+  position: relative;
+  overflow-y: auto;
+}
+.messageRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: 8px;
+  transition: background 0.2s;
+
+  &.mine {
+    align-items: flex-end;
+  }
+}
+
+
+.reactionsRow {
+    position: absolute;
+  bottom: 40px;
+  background: #fff;
+  border: 1.5px solid #dde3ec;
+  box-shadow: 0 4px 18px rgba(38,66,113,0.14);
+  border-radius: 13px;
+  padding: 7px 9px;
+  z-index: 30;
+  display: flex;
+  gap: 7px;
+  visibility: hidden;
+}
+
+.emojiBtn {
+  font-size: 22px;
+    margin: 0 4px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.14s;
+    &:hover, &.activeEmoji {
+      transform: scale(1.2);
+    }
+
+  &.animated {
+    animation: pop-reaction 0.3s;
+    // animation-fill-mode: forwards;
+  }
+}
+
+.animated{
+  animation: pop-reaction 0.3s;
+  // animation-fill-mode: forwards;
+}
+
+
+
+
+.emojiCount {
+  margin-left: 3px;
+  font-size: 0.85em;
+  color: #476b98;
+  font-weight: 500;
+}
+
+.moreEmojiBtn {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 0 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  color: #6385b8;
+  transition: color 0.15s;
+  &:hover {
+    color: #255ca7;
+    font-weight: 600;
+  }
+}
+
+.emojiPickerPopup {
+  position: absolute;
+  z-index: 3;
+  background: #fff;
+  border: 1px solid #dde6f2;
+  border-radius: 12px;
+  padding: 7px 11px;
+  display: flex;
+  gap: 7px;
+  box-shadow: 0 3px 16px 0 rgba(34,50,84,0.07);
+  margin-top: 4px;
+  left: 0;
+}
+
+.emojiPickerItem {
+  font-size: 1.23em;
+  cursor: pointer;
+  transition: background 0.13s;
+  border-radius: 7px;
+  padding: 2px 7px;
+  &:hover {
+    background: #ddeafd;
+  }
+}
+
+@media (max-width: 600px) {
+  .messageBubble {
+    max-width: 90vw;
+    font-size: 0.97em;
+    padding: 7px 10px;
+  }
+  .chatMessages {
+    padding: 7px;
+  }
+}

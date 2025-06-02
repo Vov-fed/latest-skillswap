@@ -1,0 +1,134 @@
+@import '../../styles/vars';
+
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  width: 22rem;
+  max-width: 22rem;
+
+  .label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #2c2c2c;
+    margin-bottom: 0.25rem;
+  }
+
+  .selectBox {
+    position: relative;
+    background-color: #f9fafb;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &.open {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+
+      &.valid {
+        box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.25);
+      }
+
+      &.invalid {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
+      }
+    }
+
+    &.invalid {
+      border-color: #ef4444;
+    }
+
+    &.valid {
+      border-color: $green;
+    }
+
+    .selected {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: transparent;
+      border: none;
+      text-align: left;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1f2937;
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &:disabled {
+        cursor: not-allowed;
+        color: #9ca3af;
+      }
+
+      .arrow {
+        margin-left: 0.5rem;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid #6b7280;
+        transition: transform 0.3s ease;
+      }
+
+      .arrowOpen {
+        transform: rotate(180deg);
+      }
+    }
+
+    .options {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      width: 100%;
+      background-color: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      z-index: 20;
+      max-height: 240px;
+      overflow-y: auto;
+      padding: 0;
+      animation: fade-in 0.15s ease-out;
+
+      .option {
+        padding: 0.65rem 1rem;
+        font-size: 0.95rem;
+        cursor: pointer;
+        color: #1f2937;
+        transition: background 0.2s ease;
+
+        &:hover,
+        &:focus {
+          background-color: #f3f4f6;
+        }
+
+        &.active {
+          background-color: #e0e7ff;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .error {
+    color: #ef4444;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

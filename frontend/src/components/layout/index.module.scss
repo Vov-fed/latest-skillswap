@@ -1,0 +1,145 @@
+@import '../../styles/vars';
+@import '../../styles/mixins';
+
+.headerContainer {
+  width: 100%;
+  position: relative;
+  background-color: $primary-color;
+  margin: 0;
+  padding: 0;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: $primary-color;
+  color: $light-color;
+  
+  @include respondTo('sm') {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 34px;
+    gap: 0.5rem;
+    transition: height 0.3s ease;
+    &.open{
+      height: 100vh;
+      transition: height 0.3s ease;
+      .headerLink {
+        margin-left: 1rem;
+        transition: margin-left 0.3s ease, margin-top 0.3s ease;
+        &:first-child {
+          margin-left: 0;
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 100px);
+  background-color: $defaultBackgroundColor;
+}
+.logo {
+  @include link;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $light-color;
+  letter-spacing: 1px;
+  margin-right: 2rem;
+  text-decoration: none;
+  
+  &:hover {
+    color: $accent-color;
+    text-decoration: none;
+  }
+}
+
+.headerLink {
+  font-weight: 500;
+  margin-left: 1rem;
+  color: $light-color;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: $accent-color;
+  }
+
+  @include respondTo('sm') {
+    margin-left: -300px;
+    margin-top: 1rem;
+    &:first-child {
+      margin-left: 0;
+      margin-top: 0;
+    }
+  }
+}
+
+.burger{
+  display: none;
+  cursor: pointer;
+  @include respondTo('sm') {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 30px;
+    height: 25px;
+    position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 1001;
+      &.active {
+        .burgerLine:nth-child(1) {
+          transform: rotate(45deg) translate(7px, 8px);
+        }
+        .burgerLine:nth-child(2) {
+          opacity: 0;
+        }
+        .burgerLine:nth-child(3) {
+          transform: rotate(-45deg) translate(7px, -8px);
+        }
+      }
+      &:hover{
+        transform: scale(1.05);
+      }
+      .burgerLine {
+      transition: all 0.3s ease;
+      width: 30px;
+      height: 3px;
+      border-radius: 2px;
+      background-color: $light-color;
+      transition: all 0.3s ease;
+    }
+  }
+}
+.fabChat {
+  position: fixed;
+  bottom: 2.2rem;
+  right: 2.2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+  font-size: 2rem;
+  z-index: 2000;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.fabChat:hover { background-color: #125bb1; }

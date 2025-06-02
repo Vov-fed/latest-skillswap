@@ -1,0 +1,75 @@
+@import '../../styles/vars';
+@import '../../styles/mixins';
+
+.field {
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    display: block;
+    color: $gray-dark;
+    @media (max-width: 900px) {
+      font-size: 0.9rem;
+      max-width: 90%; 
+    }
+  }
+
+  .input {
+    display: block;
+    width: 20rem;
+    max-width: 20rem;
+    padding: 0.625rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid $gray-medium;
+    border-radius: $borderRadiusSmall;
+    background-color: $white;
+    color: $defaultTextColor;
+    outline: none;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    }
+
+    &.invalid {
+      border-color: $red;
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+      }
+    }
+
+    &.valid {
+      border-color: $green;
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+      }
+    }
+    @media (max-width: 900px) {
+      max-width: 80%;
+    }
+  }
+
+  .error {
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    color: $red;
+    max-width: 21rem;
+  }
+    .textareaInput {
+    min-height: 8rem;
+    resize: none;
+  }
+  @media (max-width: 900px) {
+    margin: 0 auto;
+  }
+}

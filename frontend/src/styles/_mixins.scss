@@ -1,0 +1,178 @@
+@import './vars';
+
+@mixin link($color: $primary, $hoverColor: $secondary) {
+  color: $color;
+  transition: color 200ms ease;
+
+  &:hover,
+  &:active {
+    color: $hoverColor;
+    text-decoration: underline;
+  }
+}
+
+@mixin h1 {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+@mixin h2 {
+  font-size: 1rem;
+  line-height: 1.2;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+}
+
+@mixin h3 {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+@mixin respondTo($breakpoint) {
+  @if $breakpoint =='sm' {
+    @media (width <=600px) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint =='md' {
+    @media (width <=900px) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint =='lg' {
+    @media (width <=1200px) {
+      @content;
+    }
+  }
+}
+
+@mixin block {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px 0 rgba(36, 52, 82, 0.10);
+  min-width: 230px;
+  flex: 1 1 230px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(36, 52, 82, 0.15);
+    transform: translateY(-3px);
+  }
+}
+
+@mixin skillChip {
+  background: #fff;
+  border: 1.5px solid #dbeafe;
+  border-radius: 13px;
+  width: 340px;
+  padding: 18px 22px 15px 22px;
+  font-size: 1.09rem;
+  font-weight: 500;
+  color: #204074;
+  box-shadow: 0 2px 10px rgba(33, 83, 150, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: border 0.18s, box-shadow 0.18s, transform 0.17s;
+  overflow: hidden;
+  cursor: pointer;
+  &:hover {
+    border-color: #1677ff;
+    box-shadow: 0 8px 26px rgba(22,119,255,0.14);
+    transform: translateY(-3px) scale(1.025);
+    background: linear-gradient(101deg, #f6faff 65%, #e6f1fc 100%);
+  }
+
+// Offered/requested row
+.skillOffered, .skillRequested {
+  display: inline-block;
+  font-size: 1.09rem;
+  font-weight: 700;
+  padding: 2px 13px;
+  border-radius: 9px;
+}
+
+.skillOffered {
+  background: rgba(22, 119, 255, 0.11);
+  color: #1677ff;
+  margin-right: 7px;
+}
+
+.arrowIcon {
+  font-size: 1.08rem;
+  color: #7d9fcc;
+  font-weight: 700;
+  margin-right: 7px;
+}
+
+.skillRequested {
+  background: rgba(33, 160, 103, 0.10);
+  color: #21a067;
+}
+
+// User name or email
+.skillUser {
+  margin-top: 6px;
+  font-size: 1rem;
+  color: #2953b5;
+  font-weight: 500;
+  border-radius: 7px;
+  padding: 3px 9px 2px 9px;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+// Skill description (if exists)
+.skillDescription {
+  margin-top: 10px;
+  color: #5c6f8c;
+  font-size: 1.02rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  white-space: pre-wrap;
+}
+
+// Created date/time
+.skillDate {
+  margin-top: 7px;
+  font-size: 0.96rem;
+  color: #8ba1c6;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+}
+
+.mineTag {
+  color: #8ba1c6;
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin-top: 12px;
+  font-style: italic;
+}
+
+// No requests / loading
+.noRequests {
+  color: #a4b8d4;
+  margin-top: 12px;
+  font-size: 1.04rem;
+  font-weight: 500;
+}
+.loading {
+  color: #1677ff;
+  font-weight: 600;
+  padding: 18px 0 6px 0;
+  font-size: 1.12rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+}

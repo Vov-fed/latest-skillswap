@@ -1,0 +1,46 @@
+@import '../../styles/mixins';
+@import '../../styles/vars';
+.skillChip{
+    @include skillChip;
+}
+
+.delete{
+    width: 20px;
+    height: 20px;
+    text-align: right;
+    &:hover{
+        cursor: pointer;
+        path{
+            fill: darken($red, 10%);
+        }
+    }
+}
+
+.deleteBlock{
+    color: $red;
+    transition: color 0.15s;
+    &:hover{
+        color: darken($red, 10%);
+    }
+}
+.editBlock{
+    color: $blue;
+    transition: color 0.15s;
+    &:hover{
+        color: darken($blue, 10%);
+    }
+}
+
+.chipActions {
+    align-self: end;
+    display: flex;
+    opacity: 0;
+    width: 15%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    transition: opacity 0.15s;
+}
+.skillChip:hover .chipActions {
+    opacity: 1;
+}

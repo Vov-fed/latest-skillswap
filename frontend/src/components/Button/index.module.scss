@@ -1,0 +1,60 @@
+@import '../../styles/vars';
+@import '../../styles/mixins';
+
+.button {
+  padding: 8px 15px;
+  min-width: 100px;
+  font-size: 1rem;
+  margin-top: 8px;
+  color: $white;
+  background-color: #37be34;
+  border: none;
+  font-weight: bold;
+  border-radius: $borderRadiusSmall;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  &:hover {
+    background-color: #4caf50;
+    transform: translateY(-1px);
+  }
+  img{
+    width: 20px;
+    height: 20px;
+    padding: 0;
+  }
+  &:active {
+    background-color: #438944;
+  }
+  
+  
+  &.red {
+    background-color: #e57373;
+    &:hover {
+      background-color: #ef5350;
+    }
+    &:active {
+      background-color: #c62828;
+    }
+  }
+  &.blue {
+    background-color: #4681f4;
+    &:hover {
+      background-color: #3f51b5;
+    }
+    &:active {
+      background-color: #303f9f;
+    }
+  }
+}
+
+
+.disabled {
+    background-color: #bdbdbd;
+    color: #f5f5f5;
+    cursor: not-allowed;
+    &:hover {
+        background-color: #bdbdbd;
+        transform: none;
+    }
+  }

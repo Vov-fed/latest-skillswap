@@ -1,0 +1,48 @@
+.allRequests, .skillRequests {
+  background: linear-gradient(101deg, #fafdff 70%, #e8f1fa 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(33, 83, 150, 0.09);
+  padding: 32px 36px 24px 36px;
+  margin-bottom: 36px;
+  border: 1.2px solid #e1eaf8;
+  transition: box-shadow 0.17s;
+  position: relative;
+}
+
+.sectionHeader, .aboutTitle {
+  font-size: 1.29rem;
+  font-weight: 700;
+  color: #1851b5;
+  letter-spacing: 0.01em;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 22px 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.addLink {
+  background-color: #1677ff;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 1px 8px rgba(22, 119, 255, 0.09);
+  transition: background-color 0.18s, box-shadow 0.15s;
+  &:hover {
+    background-color: #0d47a1;
+    box-shadow: 0 2px 16px rgba(22, 119, 255, 0.16);
+    text-decoration: none;
+  }
+}

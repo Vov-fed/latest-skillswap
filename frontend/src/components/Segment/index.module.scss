@@ -1,0 +1,81 @@
+@import '../../styles/vars';
+@import '../../styles/mixins';
+
+
+.segment {
+  @include block;
+  width: 800px;
+  padding: 40px 30px;
+  margin: 60px auto;
+  &.center{
+    margin: 150px auto;
+  }
+  &:hover {
+    box-shadow: 0 2px 8px 0 rgba(36, 52, 82, 0.10);
+    transform: none;
+  }
+  @media (max-width: 900px) {
+    width: 80%;
+    padding: 20px;
+    margin: 20px auto;
+  }
+  h1.title {
+    @include h1;
+    text-align: center;
+  }
+  h2.title {
+    @include h2;
+    text-align: center;
+  }
+
+  .description {
+    font-size: 18px;
+    margin-top: 5px;
+  }
+
+  .content {
+    margin-top: 12px;
+  }
+
+  & + .segment {
+    margin-top: 40px;
+  }
+  
+}
+.mainSegment {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  p {
+    font-size: 1.2rem;
+    color: #4b5563;
+    margin-top: 0.5rem;
+  }
+}
+.sectionWhat,
+.sectionHow,
+.sectionWhy {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #1f2937;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #374151;
+  }
+}

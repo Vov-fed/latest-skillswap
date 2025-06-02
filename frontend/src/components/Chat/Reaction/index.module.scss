@@ -1,0 +1,67 @@
+.reactionsRow{
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1.5px solid #dde3ec;
+    box-shadow: 0 4px 18px rgba(38,66,113,0.14);
+    border-radius: 13px;
+    padding: 7px 9px;
+    z-index: 30;
+    display: flex;
+    gap: 7px;
+}
+
+.emojiBtn{
+    font-size: 22px;
+    margin: 0 4px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.14s;
+
+    &:hover, &.activeEmoji {
+        transform: scale(1.2);
+    }
+}
+.reactionList{
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
+    gap: 4px;
+    min-height: 27px;
+}
+
+.emojiPickerPopup{
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1.5px solid #dde3ec;
+    box-shadow: 0 4px 18px rgba(38,66,113,0.14);
+    border-radius: 13px;
+    padding: 7px 9px;
+    z-index: 30;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+.emojiPickerItem{
+    padding: 4px 4px;
+    background: #00000016;
+    border-radius: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.07rem;
+    cursor: pointer;
+    user-select: none;
+    min-width: 28px;
+    transition: transform 0.14s;
+    text-align: center;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
