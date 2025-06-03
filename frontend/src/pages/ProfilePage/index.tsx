@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { getUser, getUserIdByToken } from "../../services/userApi";
+import { getUser, getUserById, getUserIdByToken } from "../../services/userApi";
 import styles from "./index.module.scss";
 import { Button } from "../../components/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   deleteSkill,
   getAllSkillRequestsFromSomeUser,
@@ -10,6 +10,9 @@ import {
 import Cookies from "js-cookie";
 import { Skill } from "../../components/Skill";
 import { Alert } from "../../components/Alert";
+import { createChat } from "../../services/chatAndMessageApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 
 type Skill = { _id: string; name: string };
 type SkillRequest = {
@@ -40,7 +43,25 @@ export const ProfilePage = () => {
   const [mySkillRequests, setMySkillRequests] = useState<SkillRequest[]>([]);
   const [loadingSkills, setLoadingSkills] = useState(false);
   const [alert, setAlert] = useState<{ color: "red" | "green" | "blue"; message: string; } | null>(null);
-
+  const [ otherProfile, setOtherProfile ] = useState(false);
+  const { otherProfileId } = useParams()
+  const navigate = useNavigate();
+  const handleCreateChat = async (userId: string) => {
+    const currentUserId = getUserIdByToken();
+    if (!currentUserId) return;
+    try {
+      const response = await createChat({participants: [userId, currentUserId]});
+      console.log("Chat created successfully:", response);
+      if (response) {
+        navigate(`/chats/${response._id}`);
+      } else {
+        console.error("Failed to create chat, no chat ID returned.");
+      }
+    } catch (error) {
+      console.error("Error creating chat:", error);
+      setAlert({ color: "red", message: "Failed to create chat." });
+    }
+  };
   //functions
 const onDelete = async (skillId: string) => {
   try {
@@ -60,12 +81,22 @@ const onDelete = async (skillId: string) => {
   }
 };
   useEffect(() => {
-    getUser()
-      .then((userData) => {
-        setProfile(userData?.user || userData || null);
-        setLoading(false);
-      })
-      .catch(() => setProfile(null));
+    if (otherProfileId) {
+      setOtherProfile(true);
+      getUserById(otherProfileId)
+        .then((userData) => {
+          setProfile(userData?.user || userData || null);
+          setLoading(false);
+        })
+        .catch(() => setProfile(null));
+    } else {
+      getUser()
+        .then((userData) => {
+          setProfile(userData?.user || userData || null);
+          setLoading(false);
+        })
+        .catch(() => setProfile(null));
+    }
 
     setLoadingSkills(true);
     const userId = getUserIdByToken();
@@ -101,14 +132,13 @@ const onDelete = async (skillId: string) => {
   return (
     <section className={styles.profileContainer}>
       {alert && <Alert color={alert.color} children={alert.message} />}
-      {/* Cover */}
       <div className={styles.coverSection}>
         <div
           className={styles.cover}
           style={profile.headerPicture ? { backgroundImage: `url(${profile.headerPicture})` } : {} }/>
         <div className={styles.avatarInfoRow}>
           <img
-            src={profile.profilePicture || "https://i.pravatar.cc/100?img=3"}
+            src={profile.profilePicture ||  `https://ui-avatars.com/api/?name=${profile.name || "User"}&background=random&color=fff`}
             alt="User avatar"
             className={styles.avatar}
           />
@@ -120,6 +150,17 @@ const onDelete = async (skillId: string) => {
             <span className={styles.location}>
               {profile.location ?? "Israel"}
             </span>
+            {
+              otherProfile ? (
+                <div className={styles.actions}>
+                  <div  className={styles.contactButtons} onClick={() => { handleCreateChat(otherProfileId);}}>
+                    <Button color="blue"><FontAwesomeIcon icon={faCommentDots} /></Button>
+                  </div>
+                  <Link to={`/user/${otherProfileId}/skills`}>
+                    <Button color="red">Report...</Button>
+                  </Link>
+                </div>
+              ) :
             <div className={styles.actions}>
               <Link to="/editProfile">
                 <Button color="blue">Edit Profile</Button>
@@ -128,6 +169,7 @@ const onDelete = async (skillId: string) => {
                 <Button color="red">Logout</Button>
               </Link>
             </div>
+            }
           </div>
         </div>
       </div>
@@ -146,7 +188,7 @@ const onDelete = async (skillId: string) => {
           </div>
         </div>
         {profile.skills?.length ? (
-          <div className={styles.aboutCard}>
+          <div className={styles.aboutCard + " " + styles.skillsCard}>
             <div className={styles.aboutTitle}>Skills</div>
             <ul className={styles.skillsList}>
               {profile.skills.map((skill) => (
@@ -157,17 +199,19 @@ const onDelete = async (skillId: string) => {
             </ul>
           </div>
         ) : null}
-{(
-  <div className={styles.aboutCard + " " + styles.skillRequests}>
-    <div className={styles.aboutTitle}>Skill Requests</div>
-    {loadingSkills ? (
-      <div>Loading skill requests...</div>
-    ) : mySkillRequests.length ? (
-      <ul className={styles.skillsList}>
-        {[...mySkillRequests]
-          .sort(
-            (a, b) =>
-              new Date(b.createdAt).getTime() -
+        {(
+          mySkillRequests.length > 0 || loadingSkills
+        ) && (
+          <div className={styles.aboutCard + " " + styles.skillRequests}>
+            <div className={styles.aboutTitle}>Skill Requests</div>
+            {loadingSkills ? (
+              <div>Loading skill requests...</div>
+            ) : mySkillRequests.length ? (
+              <ul className={styles.skillsList}>
+                {[...mySkillRequests]
+                  .sort(
+                    (a, b) =>
+                      new Date(b.createdAt).getTime() -
               new Date(a.createdAt).getTime()
           )
           .map((skill) => (

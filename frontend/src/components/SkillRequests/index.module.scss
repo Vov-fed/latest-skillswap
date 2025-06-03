@@ -18,6 +18,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media (max-width: 600px) {
+    font-size: 1.15rem;
+    flex-direction: column-reverse;
+  }
+}
+@media  (max-width: 600px) {
+  .allRequests, .skillRequests {
+    padding: 18px 4vw 14px 4vw;
+  }
+  .skillsList {
+    gap: 13px 6px;
+  }
+  .sectionHeader {
+    height: 80px;
+  }
+  
 }
 
 .skillsList {
@@ -44,5 +60,9 @@
     background-color: #0d47a1;
     box-shadow: 0 2px 16px rgba(22, 119, 255, 0.16);
     text-decoration: none;
+  }
+  @media (max-width: 600px) {
+    font-size: 0.95rem;
+    padding: 6px 14px;
   }
 }

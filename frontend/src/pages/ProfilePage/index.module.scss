@@ -198,6 +198,9 @@
       max-width: 85vw;
       width: 100%;
       margin: 0 auto;
+      &.skillRequests, &.skillsCard {
+        height: auto;
+      }
     }
   }
 

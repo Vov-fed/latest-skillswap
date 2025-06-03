@@ -42,28 +42,13 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ open, onClose, fullWidth, chatOpe
 
   return (
   <>
-      <div className={`${styles.chatPanelContainer} ${fullWidth ? styles.fullWidth : ""}`}>
-      <div className={styles.chatPanelHeader}>
+      <div className={`${styles.chatPanelContainer} ${fullWidth ? styles.fullWidth : ""} ${selectedChat ? styles.chatSelected : ""}`}>
         {!selectedChat || fullWidth ? (
-          <>
+      <div className={styles.chatPanelHeader}>
             <span className={styles.chatPanelTitle}>Chats</span>
             {!fullWidth && <button onClick={onClose} className={styles.chatPanelCloseButton}>×</button>}
-          </>
-        ) : (
-          <>
-            <button
-              onClick={() => setSelectedChat(null)}
-              className={styles.chatPanelBackButton}
-            >←</button>
-            <span className={styles.chatPanelTitle}>
-              {selectedChat.isGroup
-                ? selectedChat.groupName
-                : selectedChat.participants.find(p => p._id !== userId)?.name || "User"}
-            </span>
-            <button onClick={onClose} className={styles.chatPanelCloseButton}>×</button>
-          </>
-        )}
       </div>
+        ) : null}
       {/* Content */}
       <div className={styles.chatPanelContent}>
         {!selectedChat || fullWidth ? (
@@ -87,11 +72,11 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ open, onClose, fullWidth, chatOpe
             ))}
           </>
         ) : (
-          !fullWidth && <ChatWindow chat={selectedChat} onBack={() => setSelectedChat(null)} onClose={onClose} />
+        !fullWidth && <ChatWindow chat={selectedChat} chatName={selectedChat?.isGroup ? selectedChat.groupName : selectedChat.participants.find(p => p._id !== userId) || ''} onBack={() => setSelectedChat(null)} onClose={onClose} />
         )}
       </div>
     </div>
-      {selectedChat && fullWidth && <ChatWindow chat={selectedChat} onBack={() => setSelectedChat(null)} onClose={onClose} fullWidth={fullWidth} />}
+      {selectedChat && fullWidth && <ChatWindow chat={selectedChat} chatName={selectedChat?.isGroup ? selectedChat.groupName : selectedChat.participants.find(p => p._id !== userId) || ""} onBack={() => setSelectedChat(null)} onClose={onClose} fullWidth={fullWidth} />}
   </>
   );
 };

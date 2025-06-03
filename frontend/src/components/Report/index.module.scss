@@ -1,4 +1,5 @@
 @import "../../styles/mixins";
+
 .reportForm {
   @include block;
     max-width: 350px;
@@ -8,6 +9,11 @@
     position: relative;
     gap: 1.3rem;
     font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    @media (max-width: 400px) {
+        padding: 2rem 1.5rem;
+        max-width: 70vw;
+        width: 70vw;
+    }
 }
 
 .closeButton{
