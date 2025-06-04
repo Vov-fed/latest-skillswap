@@ -71,7 +71,7 @@ io = new Server(server, {
           reaction.users.splice(userIndex, 1);
           io.to(msg.chat.toString()).emit("messageReacted", msg, reaction);
           io.to(msg.chat.toString()).emit("reactionAdded", {
-            messageId: msg._id.toString(),
+            messageId: (msg._id as string).toString(),
             emoji
           });
           console.log(`User ${userId} removed reaction ${emoji} from message ${messageId}`);
@@ -79,7 +79,7 @@ io = new Server(server, {
           reaction.users.push(userId);
           io.to(msg.chat.toString()).emit("messageReacted", msg, reaction);
           io.to(msg.chat.toString()).emit("reactionAdded", {
-            messageId: msg._id.toString(),
+            messageId: (msg._id as string | { toString(): string }).toString(),
             emoji
           });
           console.log(`User ${userId} reacted with ${emoji} to message ${messageId}`);
@@ -89,7 +89,7 @@ io = new Server(server, {
         console.log("Created new reaction entry");
         io.to(msg.chat.toString()).emit("messageReacted", msg, { emoji, users: [userId] });
         io.to(msg.chat.toString()).emit("reactionAdded", {
-          messageId: msg._id.toString(),
+          messageId: (msg._id as string | { toString(): string }).toString(),
           emoji
         });
         console.log(`User ${userId} reacted with ${emoji} to message ${messageId}`);
