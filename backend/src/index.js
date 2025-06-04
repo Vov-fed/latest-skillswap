@@ -15,7 +15,7 @@ const socket_1 = require("./socket");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 // --- SOCKET.IO SETUP ---
 const server = http_1.default.createServer(app);
 (0, socket_1.initSocket)(server);
@@ -29,7 +29,7 @@ app.use('/skills', index_2.default);
 app.use('/chats', index_3.default);
 app.use('/messages', index_4.default);
 server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running at port:${PORT}`);
 });
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/mydatabase';
 mongoose_1.default.connect(MONGO_URI)
