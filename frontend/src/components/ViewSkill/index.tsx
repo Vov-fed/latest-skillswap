@@ -6,14 +6,18 @@ import { getUserById, getUserIdByToken } from "../../services/userApi";
 import { Report } from "../Report";
 import { createChat } from "../../services/chatAndMessageApi";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 interface ViewSkillProps {
   skillId: string;
   currentUserId: string;
   onClose?: () => void;
+  isModerator?: boolean;
+  onDelete?: (skillId: string) => void;
 }
 
-const ViewSkill: React.FC<ViewSkillProps> = ({ skillId, onClose }) => {
+const ViewSkill: React.FC<ViewSkillProps> = ({ skillId, onClose, isModerator, onDelete }) => {
   const [skill, setSkill] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [reportModalOpen, setReportModalOpen] = useState(false);
@@ -61,7 +65,7 @@ const ViewSkill: React.FC<ViewSkillProps> = ({ skillId, onClose }) => {
           {onClose && (<button className={styles.modalClose} onClick={onClose}>x</button>)}
           <div>
             <span className={styles.viewSkillTitle}>{skill.skillOffered}</span>
-            <span className={styles.viewSkillArrow}>→</span>
+            <FontAwesomeIcon icon={faArrowRight} className={styles.viewSkillArrow} />
             <span className={styles.viewSkillTitle}>{skill.skillRequested}</span>
           </div>
           {skill.description && (
@@ -70,7 +74,13 @@ const ViewSkill: React.FC<ViewSkillProps> = ({ skillId, onClose }) => {
           <div className={styles.viewSkillInfo}>
             <div>
               <span className={styles.viewSkillLabel}>Offered by: </span>
-              <span className={styles.viewSkillValue}>
+              <span className={styles.viewSkillValue} onClick={() => {
+                if (skill.userOfferingInfo?.email) {
+                  navigate(`/user/${skill.userOffering}`);
+                } else {
+                  console.warn("User offering info not available");
+                }
+              }}>
                 {skill.userOfferingInfo?.name
                   ? skill.userOfferingInfo.name
                   : skill.userOfferingInfo?.email
@@ -102,10 +112,12 @@ const ViewSkill: React.FC<ViewSkillProps> = ({ skillId, onClose }) => {
                   console.error("Failed to create chat");
                 }
                 }}>
-                <Button children={`Contact ${skill.userOfferingInfo?.name}`} color="blue" />
+                <Button children={'Contact user...'} color="blue" />
               </div>
-                <div className={styles.viewSkillButton} onClick={() => setReportModalOpen(true)}>
-                    <Button children="Report..." color="red"/>
+                <div className={styles.viewSkillButton} onClick={
+                  onDelete && isModerator ? ()=> {onDelete(skillId)} : ()=> {setReportModalOpen(true)}
+                  }>
+                    <Button children={isModerator? "Delete" : "Report..."} color="red"/>
                 </div>
             </div>
           </div>

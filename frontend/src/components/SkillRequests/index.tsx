@@ -16,10 +16,10 @@ type Props = {
   loading?: boolean;
   title?: string;
   inProfilePage?: boolean;
+  isModerator?: boolean;
 };
 
-export const SkillRequests: React.FC<Props> = ({ allSkillRequests, setSelectedSkillId, setViewModalOpen, loading = false, title, inProfilePage, user,
-}) => {
+export const SkillRequests: React.FC<Props> = ({ allSkillRequests, setSelectedSkillId, setViewModalOpen, loading = false, title, inProfilePage, user, isModerator }) => {
     const [alert, setAlert] = useState<{color: string; message: string} | null>(null);
     useEffect(() => {
     if (alert) { const timer = setTimeout(()=>{setAlert(null)}, 3000);
@@ -61,7 +61,7 @@ export const SkillRequests: React.FC<Props> = ({ allSkillRequests, setSelectedSk
             .map((skill) => (
               <Skill
                 onDelete={onDelete}
-                
+                isModerator={isModerator}
                 key={skill._id}
                 skill={skill}
                 setSelectedSkillId={setSelectedSkillId}

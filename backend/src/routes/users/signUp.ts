@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 import User from '../../models/User'
 
 const signUpRoute = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body
+  const { name, email, password, role } = req.body
 
   if (!name || !email || !password) {
     return res.status(400).json({ message: 'All fields are required' })
@@ -22,6 +22,8 @@ const signUpRoute = async (req: Request, res: Response) => {
       name,
       email,
       password: hashedPassword,
+      role: role || 'user', // Default to 'user' if no role is provided
+      createdAt: new Date(),
     })
 
     await newUser.save()
@@ -30,7 +32,7 @@ const signUpRoute = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'User not found after creation' })
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || 'default_secret', {
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET || 'default_secret', {
           expiresIn: '1d',
     });
     return res.status(201).json({ token })

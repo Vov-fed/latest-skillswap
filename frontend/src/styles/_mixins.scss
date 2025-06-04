@@ -129,6 +129,14 @@
   letter-spacing: 0.01em;
   display: inline-block;
   margin-bottom: 2px;
+  &.red {
+  color: darken($red, 10%);
+  font-style: italic;
+  max-width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 }
 
 // Skill description (if exists)

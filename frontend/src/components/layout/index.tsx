@@ -4,6 +4,8 @@ import css from './index.module.scss'
 import { useEffect, useState } from 'react';
 import { tokenExistCheck } from '../../services/tokenExistCheck';
 import ChatPanel from '../Chat/ChatPanel';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
 // import { useSocket } from '../../services/useSocket';
 
 export const Layout = () => {
@@ -26,15 +28,15 @@ export const Layout = () => {
           <Link className={css.headerLink} to="/">
             <span className={css.logo}>SkillSwap</span>
           </Link>
-          <Link className={css.headerLink} to='/'>
+          <Link className={css.headerLink} to='/'  onClick={() => setHeaderOpen(false)}>
             Home
           </Link>
           {!loggedIn ?(
             <>
-            <Link className={css.headerLink} to='/register'>
+            <Link className={css.headerLink} to='/register' onClick={() => setHeaderOpen(false)}>
             Sign Up
           </Link>
-          <Link className={css.headerLink} to='/login'>
+          <Link className={css.headerLink} to='/login' onClick={() => setHeaderOpen(false)}>
             Sign In
           </Link>
           <div className={`${css.burger} ${headerOpen ? css.active : ''}`} onClick={() => setHeaderOpen(!headerOpen)}>
@@ -45,15 +47,14 @@ export const Layout = () => {
             </>
           ) : (
           <>
-            <Link className={css.headerLink} to='/profile'>
+            <Link className={css.headerLink} to='/profile'  onClick={() => setHeaderOpen(false)}>
               Profile
             </Link>
-            <Link className={css.headerLink} to='/skillCreate'>
+            <Link className={css.headerLink} to='/skillCreate' onClick={() => setHeaderOpen(false)}>
               Create Skill Request
             </Link>
-            
-            <Link className={css.headerLink} to='/search'>
-              Search
+            <Link className={css.headerLink} to='/chats' onClick={() => setHeaderOpen(false)}>
+              Chats
             </Link>
             <div className={`${css.burger} ${headerOpen ? css.active : ''}`} onClick={() => setHeaderOpen(!headerOpen)}>
             <span className={css.burgerLine}></span>
@@ -70,7 +71,7 @@ export const Layout = () => {
       {loggedIn && !isChatPage && (
         <>
           <button className={css.fabChat} onClick={() => setShowChat(true)} aria-label="Open chat">
-            💬
+            <FontAwesomeIcon icon={faCommentDots} />
           </button>
           <ChatPanel open={showChat} onClose={() => setShowChat(false)} fullWidth={false}/>
         </>

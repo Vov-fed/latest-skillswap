@@ -97,3 +97,19 @@ export const updateSkill = async (skillId: string, data: any) => {
     );
     return response.data;
 }
+
+export const getSkillsToModerate = async () => {
+    const token = Cookies.get("token");
+    if (!token) {
+        throw new Error("No token found");
+    }
+    const response = await axios.get(
+        "http://localhost:3000/skills/moderator",
+        {
+            headers: {
+                Authorization: token,
+            },
+        }
+    );
+    return response.data;
+}

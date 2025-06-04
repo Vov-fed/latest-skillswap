@@ -3,6 +3,7 @@
 import express, { Request, Response } from 'express';
 import Skill from '../../models/Skill';
 import jwt from 'jsonwebtoken';
+import Moderator from '../../models/Moderator';
 
 const deleteSkillRouter = express.Router();
 
@@ -26,7 +27,7 @@ deleteSkillRouter.delete('/:id', async (req: Request, res: Response) => {
     if (!skill) {
       return res.status(404).json({ message: 'Skill not found' });
     }
-    if (!skill.userOffering || skill.userOffering.toString() !== userId) {
+    if (!skill.userOffering && decodedToken.role !== 'admin' || skill.userOffering.toString() !== userId && decodedToken.role !== 'admin') {
       return res.status(403).json({ message: 'Forbidden: You do not have permission to delete this skill' });
     }
     const deletedSkill = await Skill.findByIdAndDelete(skillId);
@@ -34,7 +35,10 @@ deleteSkillRouter.delete('/:id', async (req: Request, res: Response) => {
     if (!deletedSkill) {
       return res.status(404).json({ message: 'Skill not found' });
     }
-
+    const isModerator = await Moderator.findOne({ skillId: skillId }) || false;
+    if (isModerator) {
+      await Moderator.deleteOne({ skillId: skillId });
+    }
     res.status(200).json({ message: 'Skill deleted successfully' });
   } catch (error) {
     console.error('Error deleting skill:', error);

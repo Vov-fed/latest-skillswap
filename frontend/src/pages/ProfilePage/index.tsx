@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
-import { getUser, getUserIdByToken } from "../../services/userApi";
+import { getUser, getUserById, getUserIdByToken } from "../../services/userApi";
 import styles from "./index.module.scss";
 import { Button } from "../../components/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   deleteSkill,
   getAllSkillRequestsFromSomeUser,
+  getSkillsToModerate,
 } from "../../services/skillApi";
 import Cookies from "js-cookie";
+
 import { Skill } from "../../components/Skill";
 import { Alert } from "../../components/Alert";
+import { createChat } from "../../services/chatAndMessageApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
+import ViewSkill from "../../components/ViewSkill";
 
 type Skill = { _id: string; name: string };
 type SkillRequest = {
@@ -40,7 +46,29 @@ export const ProfilePage = () => {
   const [mySkillRequests, setMySkillRequests] = useState<SkillRequest[]>([]);
   const [loadingSkills, setLoadingSkills] = useState(false);
   const [alert, setAlert] = useState<{ color: "red" | "green" | "blue"; message: string; } | null>(null);
-
+  const [ otherProfile, setOtherProfile ] = useState(false);
+  const { otherProfileId } = useParams()
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [moderatorSkills, setModeratorSkills] = useState([]);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
+  const handleCreateChat = async (userId: string) => {
+    const currentUserId = getUserIdByToken();
+    if (!currentUserId) return;
+    try {
+      const response = await createChat({participants: [userId, currentUserId]});
+      console.log("Chat created successfully:", response);
+      if (response) {
+        navigate(`/chats/${response._id}`);
+      } else {
+        console.error("Failed to create chat, no chat ID returned.");
+      }
+    } catch (error) {
+      console.error("Error creating chat:", error);
+      setAlert({ color: "red", message: "Failed to create chat." });
+    }
+  };
   //functions
 const onDelete = async (skillId: string) => {
   try {
@@ -59,13 +87,39 @@ const onDelete = async (skillId: string) => {
     setAlert({ color: "red", message: "Failed to delete skill request." });
   }
 };
-  useEffect(() => {
-    getUser()
-      .then((userData) => {
-        setProfile(userData?.user || userData || null);
-        setLoading(false);
+useEffect(() => {
+  if (isAdmin) {
+    getSkillsToModerate()
+      .then((skills) => {
+        setModeratorSkills(skills.data || []);
+        console.log("Moderator skills:", skills.data);
       })
-      .catch(() => setProfile(null));
+      .catch(() => setModeratorSkills([]));
+  } else {
+    setModeratorSkills([]);
+  }
+}, [isAdmin]);
+
+  useEffect(() => {
+    if (otherProfileId) {
+      setOtherProfile(true);
+      getUserById(otherProfileId)
+        .then((userData) => {
+          setProfile(userData?.user || userData || null);
+          setLoading(false);
+        })
+        .catch(() => setProfile(null));
+    } else {
+      getUser()
+        .then((userData) => {
+          setProfile(userData?.user || userData || null);
+          if (userData?.user?.role === "admin") {
+            setIsAdmin(true);
+          }
+          setLoading(false);
+        })
+        .catch(() => setProfile(null));
+    }
 
     setLoadingSkills(true);
     const userId = getUserIdByToken();
@@ -73,7 +127,6 @@ const onDelete = async (skillId: string) => {
       setLoadingSkills(false);
       return;
     }
-
     getAllSkillRequestsFromSomeUser(userId)
       .then((skillRequests) => {
         setMySkillRequests(skillRequests || []);
@@ -87,6 +140,7 @@ const onDelete = async (skillId: string) => {
     if (alert) {
       const timer = setTimeout(() => {
         setAlert(null);
+        window.location.reload();
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -97,18 +151,16 @@ const onDelete = async (skillId: string) => {
     return (
       <div className={styles.profileContainer}>No profile data found.</div>
     );
-
   return (
     <section className={styles.profileContainer}>
       {alert && <Alert color={alert.color} children={alert.message} />}
-      {/* Cover */}
       <div className={styles.coverSection}>
         <div
           className={styles.cover}
           style={profile.headerPicture ? { backgroundImage: `url(${profile.headerPicture})` } : {} }/>
         <div className={styles.avatarInfoRow}>
           <img
-            src={profile.profilePicture || "https://i.pravatar.cc/100?img=3"}
+            src={profile.profilePicture ||  `https://ui-avatars.com/api/?name=${profile.name || "User"}&background=random&color=fff`}
             alt="User avatar"
             className={styles.avatar}
           />
@@ -120,6 +172,17 @@ const onDelete = async (skillId: string) => {
             <span className={styles.location}>
               {profile.location ?? "Israel"}
             </span>
+            {
+              otherProfile ? (
+                <div className={styles.actions}>
+                  <div  className={styles.contactButtons} onClick={() => { handleCreateChat(otherProfileId);}}>
+                    <Button color="blue"><FontAwesomeIcon icon={faCommentDots} /></Button>
+                  </div>
+                  <Link to={`/user/${otherProfileId}/skills`}>
+                    <Button color="red">Report...</Button>
+                  </Link>
+                </div>
+              ) :
             <div className={styles.actions}>
               <Link to="/editProfile">
                 <Button color="blue">Edit Profile</Button>
@@ -128,10 +191,10 @@ const onDelete = async (skillId: string) => {
                 <Button color="red">Logout</Button>
               </Link>
             </div>
+            }
           </div>
         </div>
       </div>
-
       <div className={styles.aboutSection}>
         {profile.bio && (
           <div className={styles.aboutCard}>
@@ -146,7 +209,7 @@ const onDelete = async (skillId: string) => {
           </div>
         </div>
         {profile.skills?.length ? (
-          <div className={styles.aboutCard}>
+          <div className={styles.aboutCard + " " + styles.skillsCard}>
             <div className={styles.aboutTitle}>Skills</div>
             <ul className={styles.skillsList}>
               {profile.skills.map((skill) => (
@@ -157,17 +220,19 @@ const onDelete = async (skillId: string) => {
             </ul>
           </div>
         ) : null}
-{(
-  <div className={styles.aboutCard + " " + styles.skillRequests}>
-    <div className={styles.aboutTitle}>Skill Requests</div>
-    {loadingSkills ? (
-      <div>Loading skill requests...</div>
-    ) : mySkillRequests.length ? (
-      <ul className={styles.skillsList}>
-        {[...mySkillRequests]
-          .sort(
-            (a, b) =>
-              new Date(b.createdAt).getTime() -
+        {(
+          mySkillRequests.length > 0 && !isAdmin || loadingSkills && !isAdmin
+        ) ? (
+          <div className={styles.aboutCard + " " + styles.skillRequests}>
+            <div className={styles.aboutTitle}>Skill Requests</div>
+            {loadingSkills ? (
+              <div>Loading skill requests...</div>
+            ) : mySkillRequests.length ? (
+              <ul className={styles.skillsList}>
+                {[...mySkillRequests]
+                  .sort(
+                    (a, b) =>
+                      new Date(b.createdAt).getTime() -
               new Date(a.createdAt).getTime()
           )
           .map((skill) => (
@@ -186,8 +251,35 @@ const onDelete = async (skillId: string) => {
       </div>
     )}
   </div>
+) : moderatorSkills.length > 0 && (
+  <div className={styles.skillRequests + " " + styles.aboutCard}>
+    <div className={styles.aboutTitle}>Skills to Moderate:</div>
+    <ul className={styles.skillsList}>
+      {moderatorSkills.map((skill) => (
+        <Skill
+          key={skill._id}
+          user={{ _id: skill.skillId.userOffering ?? ""}}
+          reason={skill.reason}
+          onDelete={onDelete}
+          skill={skill.skillId}
+          setSelectedSkillId={setSelectedSkillId}
+          setViewModalOpen={setViewModalOpen}
+          isModerator={true}
+        />
+      ))}
+    </ul>
+  </div>
 )}
       </div>
+      {viewModalOpen && (
+        <ViewSkill
+          skillId={selectedSkillId || ""}
+          currentUserId={getUserIdByToken() || ""}
+          onClose={() => setViewModalOpen(false)}
+          isModerator={isAdmin}
+          onDelete={onDelete}
+        />
+        )}
     </section>
   );
 };

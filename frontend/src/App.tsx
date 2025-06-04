@@ -21,6 +21,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<SignUpPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="user/:otherProfileId" element={<ProfilePage />} />
           <Route path="/addInfo" element={<EditProfilePage />} />
           <Route path="/editProfile" element={<EditProfilePage />} />
           <Route path="/skillCreate" element={<AddSkillRequest />} />

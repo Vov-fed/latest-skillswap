@@ -55,7 +55,7 @@
       }
     }
     @media (max-width: 900px) {
-      max-width: 80%;
+      max-width: 240px;
     }
   }
 
@@ -65,11 +65,15 @@
     color: $red;
     max-width: 21rem;
   }
-    .textareaInput {
+.textareaInput {
     min-height: 8rem;
     resize: none;
+    @media (max-width: 400px) {
+      min-height: 6rem;
+      max-width: 240px;
+    }
   }
-  @media (max-width: 900px) {
+@media (max-width: 900px) {
     margin: 0 auto;
   }
 }
