@@ -72,8 +72,9 @@ export const MessageList: React.FC<Props> = ({ messages, userId, onReact, active
   }, []);
 
   return (
-    <div className={styles.chatMessages} ref={scrollRef}>
-      {messages.map((msg) => {
+    <div className={styles.chatMessages}>
+      {messages.map((msg, index) => {
+        const isLast = index === messages.length - 1;
         const reactionMap: { [emoji: string]: Reaction[] } = {};
         msg.reactions.forEach((r) => {
           if (!reactionMap[r.emoji]) reactionMap[r.emoji] = [];
@@ -84,6 +85,7 @@ export const MessageList: React.FC<Props> = ({ messages, userId, onReact, active
             key={msg._id}
             className={`${styles.messageRow} ${ msg.sender === userId || (typeof msg.sender === "object" && msg.sender._id === userId) ? styles.mine : "" }`}
             onMouseLeave={() => setActiveMsgId(null)}
+            ref={isLast ? scrollRef : null}
             onContextMenu={(e) => {
               e.preventDefault();
               e.stopPropagation();
