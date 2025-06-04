@@ -54,6 +54,7 @@ export const AddSkillRequest = () => {
       };
       fetchSkill();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skillId]);
 
   return (

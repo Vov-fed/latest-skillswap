@@ -59,10 +59,10 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ open, onClose, fullWidth, chatOpe
             )}
             {!loading && chats.map(chat => (
               <div key={chat._id} className={styles.chatItem} onClick={() => {setSelectedChat(chat); if(fullWidth) {goToChat(chat._id);}}} >
-                <img src={chat.isGroup ? chat.groupAvatar || "/group.png" : chat.participants.find(p => p._id !== userId)?.profilePicture || `https://ui-avatars.com/api/?name=${chat.participants.find(p => p._id !== userId)?.name}&background=random&color=fff`} alt="" className={styles.chatItemAvatar}/>
+                <img src={chat.isGroup ? chat.groupAvatar || "/group.png" : chat.participants.find((p: { _id: string | null; }) => p._id !== userId)?.profilePicture || `https://ui-avatars.com/api/?name=${chat.participants.find((p: { _id: string | null; }) => p._id !== userId)?.name}&background=random&color=fff`} alt="" className={styles.chatItemAvatar}/>
                 <div className={styles.chatItemInfo}>
                   <div className={styles.chatItemName}>
-                    {chat.isGroup ? chat.groupName : chat.participants.find( p=> p._id !== userId)?.name || "User"}
+                    {chat.isGroup ? chat.groupName : chat.participants.find( (p: { _id: string | null; })=> p._id !== userId)?.name || "User"}
                   </div>
                   <div className={styles.chatItemPreview}>
                     {chat.lastMessage?.text ? chat.lastMessage.text : "No messages yet"}
@@ -72,11 +72,11 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ open, onClose, fullWidth, chatOpe
             ))}
           </>
         ) : (
-        !fullWidth && <ChatWindow chat={selectedChat} chatName={selectedChat?.isGroup ? selectedChat.groupName : selectedChat.participants.find(p => p._id !== userId) || ''} onBack={() => setSelectedChat(null)} onClose={onClose} />
+        !fullWidth && <ChatWindow chat={selectedChat} chatName={selectedChat?.isGroup ? selectedChat.groupName : selectedChat.participants.find((p: { _id: string | null; }) => p._id !== userId) || ''} onBack={() => setSelectedChat(null)} onClose={onClose} />
         )}
       </div>
     </div>
-      {selectedChat && fullWidth && <ChatWindow chat={selectedChat} chatName={selectedChat?.isGroup ? selectedChat.groupName : selectedChat.participants.find(p => p._id !== userId) || ""} onBack={() => setSelectedChat(null)} onClose={onClose} fullWidth={fullWidth} />}
+      {selectedChat && fullWidth && <ChatWindow chat={selectedChat} chatName={selectedChat?.isGroup ? selectedChat.groupName : selectedChat.participants.find((p: { _id: string | null; }) => p._id !== userId) || ""} onBack={() => setSelectedChat(null)} onClose={onClose} fullWidth={fullWidth} />}
   </>
   );
 };

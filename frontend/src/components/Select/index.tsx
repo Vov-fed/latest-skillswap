@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { FormikProps } from 'formik'
+import type { FormikProps } from 'formik'
 import { useState, useRef, useEffect } from 'react'
 import css from './index.module.scss'
 

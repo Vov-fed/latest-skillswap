@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getMessages, sendMessage as apiSendMessage, reactToMessage as apiReactToMessage, } from "./chatAndMessageApi";
+import { getMessages, sendMessage as apiSendMessage, } from "./chatAndMessageApi";
 import { useSocket } from "./useSocket";
 import { getUserIdByToken } from "./userApi";
 

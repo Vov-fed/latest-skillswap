@@ -19,7 +19,7 @@ type Props = {
     email?: string;
   }
 };
-const ChatWindow: React.FC<Props> = ({ chat, onBack, onClose, fullWidth, chatName }) => {
+const ChatWindow: React.FC<Props> = ({ chat, onBack, fullWidth, chatName }) => {
   const [input, setInput] = useState("");
   const [activeMsgId, setActiveMsgId] = useState<string | null>(null);
   const { messages, loading, sending, sendMessage, reactToMessage, userId, animatedReaction } = useChatMessages(chat._id);

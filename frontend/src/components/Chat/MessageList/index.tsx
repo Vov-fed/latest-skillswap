@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, use } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Message } from "../Message";
 import { ReactionPicker } from "../Reaction";
