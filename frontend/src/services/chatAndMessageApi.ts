@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 
 const BACKEND_URI = import.meta.env.BACKEND_URI || "https://latest-skillswap-production.up.railway.app";
 const token = Cookies.get("token");
-console.log("Using backend URI:", BACKEND_URI);
 const api = axios.create({
   baseURL: BACKEND_URI || "http://localhost:3000", // add http! and adjust if needed
   headers: { authorization: token }
