@@ -1,9 +1,8 @@
 import axios from "axios";
-import dotenv from "dotenv";
-dotenv.config();
 import Cookies from "js-cookie";
 
 const token = Cookies.get("token");
+const BACKEND_URI = import.meta.env.BACKEND_URI || "https://latest-skillswap-production.up.railway.app";
 const api = axios.create({
   baseURL: process.env.BACKEND_URI || "http://localhost:3000", // add http! and adjust if needed
   headers: { authorization: token }
