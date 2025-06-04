@@ -4,12 +4,13 @@ import { Skill } from "../Skill";
 import { deleteSkill } from "../../services/skillApi";
 import { useEffect, useState } from "react";
 type Props = {
-  allSkillRequests: [
-    {
-      _id: string; skillOffered: string; skillRequested: string;
-      userOffering: { _id: string; name: string; email: string }; createdAt: string;
-    }
-  ];
+  allSkillRequests: {
+  _id: string;
+  skillOffered: string;
+  skillRequested: string;
+  userOffering: { _id: string; name: string; email: string };
+  createdAt: string;
+}[];
   user: { _id: string; name?: string; email?: string };
   setSelectedSkillId?: (id: string) => void;
   setViewModalOpen?: (open: boolean) => void;
@@ -32,8 +33,8 @@ export const SkillRequests: React.FC<Props> = ({ allSkillRequests, setSelectedSk
       const response = await deleteSkill(skillId);
       if (response.status === 200) {
         setAlert({color: "green",message: "Skill request deleted successfully."});
-        setSelectedSkillId('');
-        setViewModalOpen(false);
+        if (setSelectedSkillId) setSelectedSkillId('');
+        if (setViewModalOpen) setViewModalOpen(false);
       }
     } catch (error) {
         console.error("Error deleting skill request:", error);
@@ -64,8 +65,8 @@ export const SkillRequests: React.FC<Props> = ({ allSkillRequests, setSelectedSk
                 isModerator={isModerator}
                 key={skill._id}
                 skill={skill}
-                setSelectedSkillId={setSelectedSkillId}
-                setViewModalOpen={setViewModalOpen}
+                setSelectedSkillId={setSelectedSkillId as (id: string) => void}
+                setViewModalOpen={setViewModalOpen as (open: boolean) => void}
                 user={{ _id: user?._id, name: user?.name }}
                 inProfilePage={inProfilePage}
               />

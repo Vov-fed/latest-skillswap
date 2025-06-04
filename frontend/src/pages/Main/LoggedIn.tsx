@@ -16,8 +16,16 @@ export const LoggedIn = () => {
   const isAdmin = decodedToken.role === "admin" || false;
   const userId = decodedToken.userId;
   const [user, setUser] = useState<any>(null);
-  const [allSkillRequests, setAllSkillRequests] = useState([]);
-  const [mySkillRequests, setMySkillRequests] = useState([]);
+  type SkillRequest = {
+    _id: string;
+    skillOffered: string;
+    skillRequested: string;
+    userOffering: { _id: string; name: string; email: string; };
+    createdAt: string;
+  };
+  
+  const [allSkillRequests, setAllSkillRequests] = useState<SkillRequest[]>([]);
+  const [mySkillRequests, setMySkillRequests] = useState<SkillRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,8 +45,8 @@ export const LoggedIn = () => {
       <h1 className={styles.greeting}>
         Hi{user?.name ? `, ${user.name}` : ""}!
       </h1>
-      <SkillRequests title="All Skill Requests" allSkillRequests={allSkillRequests} userId={userId} setSelectedSkillId={setSelectedSkillId} setViewModalOpen={setViewModalOpen} loading={loading} user={{ _id: user?._id ?? userId, name: user?.name ?? "" }} isModerator={isAdmin}/>
-      <SkillRequests allSkillRequests={mySkillRequests} title="My Skill Requests" userId={userId} setSelectedSkillId={setSelectedSkillId} setViewModalOpen={setViewModalOpen} loading={loading} user={{ _id: user?._id ?? userId, name: user?.name ?? "" }} inProfilePage={true}/>
+      <SkillRequests title="All Skill Requests" allSkillRequests={allSkillRequests} setSelectedSkillId={setSelectedSkillId} setViewModalOpen={setViewModalOpen} loading={loading} user={{ _id: user?._id ?? userId, name: user?.name ?? "" }} isModerator={isAdmin}/>
+      <SkillRequests allSkillRequests={mySkillRequests} title="My Skill Requests" setSelectedSkillId={setSelectedSkillId} setViewModalOpen={setViewModalOpen} loading={loading} user={{ _id: user?._id ?? userId, name: user?.name ?? "" }} inProfilePage={true}/>
       {viewModalOpen && selectedSkillId && (
         <ViewSkill skillId={selectedSkillId} isModerator={isAdmin} currentUserId={userId} onClose={() => { setViewModalOpen(false); setSelectedSkillId(null);}}/>
       )}

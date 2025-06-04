@@ -24,7 +24,11 @@ type SkillRequest = {
   skillOffered: string;
   skillRequested: string;
   description?: string;
-  userOffering: string;
+  userOffering: {
+    _id: string;
+    name: string;
+    email: string;
+  };
 };
 type Profile = {
   profilePicture?: string;
@@ -49,7 +53,14 @@ export const ProfilePage = () => {
   const [ otherProfile, setOtherProfile ] = useState(false);
   const { otherProfileId } = useParams()
   const [isAdmin, setIsAdmin] = useState(false);
-  const [moderatorSkills, setModeratorSkills] = useState([]);
+  // Define the type for skills to moderate
+  type ModerationSkill = {
+    _id: string;
+    skillId: Skill & { userOffering?: string };
+    reason?: string;
+    [key: string]: any;
+  };
+  const [moderatorSkills, setModeratorSkills] = useState<ModerationSkill[]>([]);
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const navigate = useNavigate();
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
@@ -73,6 +84,10 @@ export const ProfilePage = () => {
 const onDelete = async (skillId: string) => {
   try {
     const response = await deleteSkill(skillId);
+    if (response.status !== 200) {
+      setAlert({ color: "red", message: "Failed to delete skill request." });
+      return;
+    }
     const userId = getUserIdByToken();
     if (!userId) return;
       // Wait for refetch to finish before setting alert
@@ -133,7 +148,8 @@ useEffect(() => {
       })
       .catch(() => setMySkillRequests([]))
       .finally(() => setLoadingSkills(false));
-  }, []);
+
+  }, [otherProfileId]);
   useEffect(() => {
     const userId = getUserIdByToken();
       if (!userId) return;
@@ -175,7 +191,7 @@ useEffect(() => {
             {
               otherProfile ? (
                 <div className={styles.actions}>
-                  <div  className={styles.contactButtons} onClick={() => { handleCreateChat(otherProfileId);}}>
+                  <div  className={styles.contactButtons} onClick={() => { if (otherProfileId) handleCreateChat(otherProfileId); }}>
                     <Button color="blue"><FontAwesomeIcon icon={faCommentDots} /></Button>
                   </div>
                   <Link to={`/user/${otherProfileId}/skills`}>
@@ -242,6 +258,8 @@ useEffect(() => {
               inProfilePage={true}
               onDelete={onDelete}
               skill={skill}
+              setSelectedSkillId={setSelectedSkillId}
+              setViewModalOpen={setViewModalOpen}
             />
           ))}
       </ul>
@@ -261,6 +279,7 @@ useEffect(() => {
           user={{ _id: skill.skillId.userOffering ?? ""}}
           reason={skill.reason}
           onDelete={onDelete}
+          //@ts-expect-error next line is fine, all info is populated inside of skillId in backend
           skill={skill.skillId}
           setSelectedSkillId={setSelectedSkillId}
           setViewModalOpen={setViewModalOpen}
