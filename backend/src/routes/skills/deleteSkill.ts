@@ -27,7 +27,11 @@ deleteSkillRouter.delete('/:id', async (req: Request, res: Response) => {
     if (!skill) {
       return res.status(404).json({ message: 'Skill not found' });
     }
-    if (!skill.userOffering && decodedToken.role !== 'admin' || skill.userOffering.toString() !== userId && decodedToken.role !== 'admin') {
+    const userRole = (typeof decodedToken === 'object' && decodedToken !== null && 'role' in decodedToken)
+      ? (decodedToken as jwt.JwtPayload).role
+      : undefined;
+
+    if ((!skill.userOffering && userRole !== 'admin') || (skill.userOffering && skill.userOffering.toString() !== userId && userRole !== 'admin')) {
       return res.status(403).json({ message: 'Forbidden: You do not have permission to delete this skill' });
     }
     const deletedSkill = await Skill.findByIdAndDelete(skillId);

@@ -59,12 +59,17 @@ export const editReaction = async (req: Request, res: Response) => {
     const message = await Message.findById(messageId);
     if (!message) return res.status(404).json({ error: "Message not found" });
 
-    // Replace or add new reaction (assuming message.reactions: [{ user, reaction }])
-    const idx = message.reactions.findIndex(r => String(r.user) === String(userId));
-    if (idx >= 0) {
-      message.reactions[idx].reaction = reaction;
+    // Replace or add new reaction (assuming message.reactions: [{ emoji, users }])
+    let existing = message.reactions.find(r => r.emoji === reaction);
+    if (existing) {
+      if (!existing.users.includes(userId)) {
+        existing.users.push(userId);
+      }
     } else {
-      message.reactions.push({ user: userId, reaction });
+      message.reactions.push({
+        users: [userId],
+        emoji: reaction
+      });
     }
     await message.save();
     res.json(message);
