@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 
-const SOCKET_URL = "http://localhost:3000"; // Update to your backend URL
+const SOCKET_URL = "https://latest-skillswap-production.up.railway.app"; // Update to your backend URL
 
 export const useSocket = () => {
   const socketRef = useRef<Socket | null>(null);

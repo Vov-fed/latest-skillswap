@@ -1,9 +1,11 @@
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
 import Cookies from "js-cookie";
 
 const token = Cookies.get("token");
 const api = axios.create({
-  baseURL: "http://localhost:3000", // add http! and adjust if needed
+  baseURL: process.env.BACKEND_URI || "http://localhost:3000", // add http! and adjust if needed
   headers: { authorization: token }
 });
 
