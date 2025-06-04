@@ -2,13 +2,14 @@
   position: fixed;
   right: 0;
   bottom: 0;
-  top: 0;
+  top:  56px;
   width: 370px;
   background: #fff;
   box-shadow: -3px 0 16px rgba(0,0,0,0.13);
   z-index: 2100;
   display: flex;
   flex-direction: column;
+  
   @media (max-width: 900px) {
     width: 90%;
     top: 80px;
