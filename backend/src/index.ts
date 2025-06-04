@@ -7,6 +7,8 @@ import skillsRouter from './routes/skills/index';
 import chatRouter from './routes/chats/index';
 import messageRouter from './routes/messages/index';
 import { initSocket } from './socket';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const PORT = 3000;
@@ -31,11 +33,11 @@ server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
 
-const MONGO_URI = 'mongodb://localhost:27017/mydatabase';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/mydatabase';
 
 mongoose.connect(MONGO_URI)
   .then(() => {
-    console.log('Connected to MongoDB');
+    console.log('Connected to MongoDB', MONGO_URI);
   })
   .catch((err: Error) => {
     console.error('MongoDB connection error:', err);
