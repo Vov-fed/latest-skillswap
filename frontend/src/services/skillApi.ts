@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 export const getSkills = async () => {
-    const response = await axios.get("http://localhost:3000/skills/");
+    const response = await axios.get("https://latest-skillswap-production.up.railway.app/skills/");
     return response.data;
 }
 
@@ -12,7 +12,7 @@ export const createSkill = async (data: any) => {
         throw new Error("No token found");
     }
     const response = await axios.post(
-        "http://localhost:3000/skills/",
+        "https://latest-skillswap-production.up.railway.app/skills/",
         data,
         {
             headers: {
@@ -25,7 +25,7 @@ export const createSkill = async (data: any) => {
 
 export const getAllSkillRequestsFromSomeUser = async (id: string) =>{
     const response = await axios.get(
-        `http://localhost:3000/skills/from/${id}`
+        `https://latest-skillswap-production.up.railway.app/skills/from/${id}`
     );
     return response.data;
 }
@@ -37,7 +37,7 @@ export const reportSkill = async (skillId: string, reason:string) => {
         throw new Error("No token found");
     }
     const response = await axios.post(
-        `http://localhost:3000/skills//${skillId}/report`,
+        `https://latest-skillswap-production.up.railway.app/skills//${skillId}/report`,
         {
             reason: reason,
         },
@@ -51,7 +51,7 @@ export const reportSkill = async (skillId: string, reason:string) => {
 }
 
 export const fetchSkillById = async (skillId: string) => {
-    const response = await axios.get(`http://localhost:3000/skills/${skillId}`);
+    const response = await axios.get(`https://latest-skillswap-production.up.railway.app/skills/${skillId}`);
     if (!response.data) {
         throw new Error("Skill not found");
     }
@@ -64,7 +64,7 @@ export const deleteSkill = async (skillId: string) => {
         throw new Error("No token found");
     }
     const response = await axios.delete(
-        `http://localhost:3000/skills/${skillId}`,
+        `https://latest-skillswap-production.up.railway.app/skills/${skillId}`,
         {
             headers: {
                 Authorization: token,
@@ -74,7 +74,7 @@ export const deleteSkill = async (skillId: string) => {
     return response.data;
 }
 export const getSkillById = async (skillId: string) => {
-    const response = await axios.get(`http://localhost:3000/skills/${skillId}`);
+    const response = await axios.get(`https://latest-skillswap-production.up.railway.app/skills/${skillId}`);
     if (!response.data) {
         throw new Error("Skill not found");
     }
@@ -87,7 +87,7 @@ export const updateSkill = async (skillId: string, data: any) => {
         throw new Error("No token found");
     }
     const response = await axios.put(
-        `http://localhost:3000/skills/${skillId}`,
+        `https://latest-skillswap-production.up.railway.app/skills/${skillId}`,
         data,
         {
             headers: {
@@ -104,7 +104,7 @@ export const getSkillsToModerate = async () => {
         throw new Error("No token found");
     }
     const response = await axios.get(
-        "http://localhost:3000/skills/moderator",
+        "https://latest-skillswap-production.up.railway.app/skills/moderator",
         {
             headers: {
                 Authorization: token,

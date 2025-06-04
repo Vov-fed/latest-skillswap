@@ -6,7 +6,7 @@ export const signUp = async (values: {
   email: string
   password: string
 }) => {
-    const response = await axios.post('http://localhost:3000/users/signup', {
+    const response = await axios.post('https://latest-skillswap-production.up.railway.app/users/signup', {
         name: values.name,
         email: values.email,
         password: values.password,
@@ -18,7 +18,7 @@ export const signIn = async (values: {
   email: string
   password: string
 }) => {
-    const response = await axios.post('http://localhost:3000/users/login', {
+    const response = await axios.post('https://latest-skillswap-production.up.railway.app/users/login', {
         email: values.email,
         password: values.password,
         });
@@ -31,7 +31,7 @@ export const getUser = async () => {
     return false;
   }
   const response = await axios.post(
-    'http://localhost:3000/users/profile',
+    'https://latest-skillswap-production.up.railway.app/users/profile',
     {},
     {
       headers: {
@@ -85,7 +85,7 @@ export const updateUser = async (values: {
     }
 
     const response = await axios.post(
-      'http://localhost:3000/users/update',
+      'https://latest-skillswap-production.up.railway.app/users/update',
       updatedValues,
       {
         headers: {
@@ -102,7 +102,7 @@ export const deleteUser = async () => {
     return false;
   }
   const response = await axios.delete(
-    'http://localhost:3000/users/delete',
+    'https://latest-skillswap-production.up.railway.app/users/delete',
     {
       headers: {
         authorization: token,
@@ -115,7 +115,7 @@ export const deleteUser = async () => {
 export const getUsersByIds = async (ids: string[]) => {
   const token = Cookies.get('token');
   const response = await axios.post(
-    'http://localhost:3000/users/getUsersByIds',
+    'https://latest-skillswap-production.up.railway.app/users/getUsersByIds',
     { ids },
     {
       headers: {
@@ -131,7 +131,7 @@ export const getUserById = async (id: string) => {
   if (!token) {
     return false;
   }
-  const response = await axios.get(`http://localhost:3000/users/${id}`, {
+  const response = await axios.get(`https://latest-skillswap-production.up.railway.app/users/${id}`, {
     headers: {
       authorization: token,
     },
