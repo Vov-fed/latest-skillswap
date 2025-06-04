@@ -13,9 +13,11 @@ interface ViewSkillProps {
   skillId: string;
   currentUserId: string;
   onClose?: () => void;
+  isModerator?: boolean;
+  onDelete?: (skillId: string) => void;
 }
 
-const ViewSkill: React.FC<ViewSkillProps> = ({ skillId, onClose }) => {
+const ViewSkill: React.FC<ViewSkillProps> = ({ skillId, onClose, isModerator, onDelete }) => {
   const [skill, setSkill] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [reportModalOpen, setReportModalOpen] = useState(false);
@@ -112,8 +114,10 @@ const ViewSkill: React.FC<ViewSkillProps> = ({ skillId, onClose }) => {
                 }}>
                 <Button children={'Contact user...'} color="blue" />
               </div>
-                <div className={styles.viewSkillButton} onClick={() => setReportModalOpen(true)}>
-                    <Button children="Report..." color="red"/>
+                <div className={styles.viewSkillButton} onClick={
+                  onDelete && isModerator ? ()=> {onDelete(skillId)} : ()=> {setReportModalOpen(true)}
+                  }>
+                    <Button children={isModerator? "Delete" : "Report..."} color="red"/>
                 </div>
             </div>
           </div>

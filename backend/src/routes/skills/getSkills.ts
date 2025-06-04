@@ -4,6 +4,7 @@ import express from 'express';
 import Skill from '../../models/Skill';
 import jwt from 'jsonwebtoken';
 import { verifyToken } from '../../middleware/authMiddleware';
+import Moderator from '../../models/Moderator';
 
 
 const getSkillsRouter = express.Router();
@@ -18,7 +19,25 @@ getSkillsRouter.get('/', async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Server error while fetching skills' });
     }
 });
-
+getSkillsRouter.get('/moderator', verifyToken, async (req: Request, res: Response) => {
+    const userId = (req as any).userId; // Extract userId from the request object
+    const token = req.headers.authorization;
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET || 'default_secret');
+    if (!decoded || decoded.role !== 'admin') {
+        return res.status(403).json({ message: 'Forbidden: You are not a moderator' });
+    }
+    try {
+        const moderatorSkills = await Moderator.find()
+            .populate('skillId', 'skillOffered skillRequested description userOffering');
+        res.status(200).json({ message: 'Moderator skills fetched successfully', data: moderatorSkills });
+    } catch (error) {
+        console.error('Error fetching skills for moderator:', error);
+        res.status(500).json({ message: 'Server error while fetching skills for moderator' });
+    }
+});
 getSkillsRouter.get('/from/:userId', async (req, res) => {
   try {
     const userId = req.params.userId
@@ -47,7 +66,6 @@ getSkillsRouter.get('/:id', async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Server error while fetching skill' });
     }
 });
-
 // GET /api/skills/myskills - Fetch skills offered by the authenticated user
 
 

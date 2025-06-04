@@ -22,6 +22,8 @@ type Props = {
     setViewModalOpen: (open: boolean) => void;
     inProfilePage?: boolean;
     onDelete?: (skillId: string) => void;
+    isModerator?: boolean;
+    reason?: string;
 };
 
 export const Skill: React.FC<Props> = ({
@@ -31,31 +33,36 @@ export const Skill: React.FC<Props> = ({
   setViewModalOpen,
   inProfilePage,
   onDelete = () => { console.warn("onDelete function not provided"); },
+  isModerator = false,
+  reason,
 }) => {
     const navigate = useNavigate();
   return (
     <>
     <li className={styles.skillChip} key={skill._id}>
     {
-        inProfilePage && (
+        inProfilePage || isModerator && (
             <div className={styles.chipActions}>
             <div className={styles.deleteBlock} onClick={() => {onDelete(skill._id);}}>
                 <FontAwesomeIcon icon={faTrash} />
             </div>
+            {!isModerator && (
             <div className={styles.editBlock} onClick={() => {
                 navigate(`/skillEdit/${skill._id}`);
             }}>
                 <FontAwesomeIcon icon={faPen} />
             </div>
+            )}
             </div>
         )
     }
       <span className={styles.skillOffered}>{skill.skillOffered}</span>
       <span className={styles.arrowIcon}>→</span>
       <span className={styles.skillRequested}>{skill.skillRequested}</span>
-      <span className={styles.skillUser}>
+      <span className={styles.skillUser + " " + (reason ? styles.red : "")}>
         {skill.userOffering.name ||
           skill.userOffering.email ||
+          reason ||
           "Unknown"}
       </span>
       {skill.createdAt && (
