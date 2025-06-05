@@ -2,21 +2,16 @@
   display: flex;
   flex-direction: column;
   height: fit-content;
-  min-height: 100vh;
+  min-height: calc(100vh - 171px);
   justify-content: end;
   background: #f4f6fa;
   border-left: 1px solid #e0e7ef;
   position: relative;
   @media (max-width: 900px) {
     border-radius: 8px 8px 0 0;
-    max-width: 100%;
+    max-width: 100vw;
     &.fullWidth {
       width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
       border-radius: 0;
       border: none;
       box-shadow: none;
@@ -55,7 +50,8 @@
     padding: 12px 20px;
     @media (max-width: 900px) {
       width: calc(100vw - 40px);
-      top: 60px;
+      top: 56px;
+      border-radius: 0;
     }
   }
 }
@@ -298,7 +294,7 @@
   .chatWindowContainer {
     border-left: none;
     min-width: 0;
-    width: 100vw;
+    width: 100%;
   }
   .chatMessage, .chatMessageSelf {
     max-width: 90vw;

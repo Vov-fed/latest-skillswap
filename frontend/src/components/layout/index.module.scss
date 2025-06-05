@@ -30,6 +30,7 @@
     height: 34px;
     gap: 0.5rem;
     transition: height 0.3s ease;
+    padding: 12px 32px;
     &.open{
       height: 100vh;
       transition: height 0.3s ease;

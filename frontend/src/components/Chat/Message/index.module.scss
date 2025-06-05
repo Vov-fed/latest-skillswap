@@ -11,6 +11,10 @@
   font-size: 1.03rem;
   transition: background 0.15s;
   position: relative;
+  @media (max-width: 900px) {
+    max-width: 100%;
+    
+  }
 }
 .mine {
   background: #e6f2ff;
