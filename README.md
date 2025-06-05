@@ -10,8 +10,8 @@ This project includes a built-in Telegram-style real-time chat with read receipt
 
 ## 🌐 Live Demo
 
-- **Frontend (Vercel)**: [https://your-vercel-url.vercel.app](https://your-vercel-url.vercel.app)
-- **Backend (Railway)**: [https://your-railway-api-url.up.railway.app](https://your-railway-api-url.up.railway.app)
+- **Frontend (Vercel)**: [https://skillswap-mauve.vercel.app/profile](https://skillswap-mauve.vercel.app/profile)
+- **Backend (Railway)**: [latest-skillswap-production.up.railway.app](latest-skillswap-production.up.railway.app)
 
 ---
 
