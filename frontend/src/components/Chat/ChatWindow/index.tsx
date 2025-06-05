@@ -44,7 +44,7 @@ const ChatWindow: React.FC<Props> = ({ chat, onBack, fullWidth, chatName }) => {
             <img src={chatName.profilePicture || `https://ui-avatars.com/api/?name=${chatName.name}&background=random&color=fff`} alt="" />
             <span className={styles.chatTitle}>{chatName.name}</span>
           </div>
-          <MessageList messages={messages} userId={userId ?? ""} onReact={reactToMessage} activeMsgId={activeMsgId} setActiveMsgId={setActiveMsgId} animatedReaction={animatedReaction} />
+          <MessageList fullWidth={fullWidth} messages={messages} userId={userId ?? ""} onReact={reactToMessage} activeMsgId={activeMsgId} setActiveMsgId={setActiveMsgId} animatedReaction={animatedReaction} />
           <ChatInput value={input} onChange={e => setInput(e.target.value)} onSend={handleSend} sending={sending} fullWidth={fullWidth}/>
         </div>
       )}

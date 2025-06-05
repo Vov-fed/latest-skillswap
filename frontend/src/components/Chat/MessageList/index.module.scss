@@ -1,13 +1,29 @@
 .chatMessages {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 171px);
+  min-height: calc(100vh - 171px);
   background: #f4f6fa;
   border-left: 1px solid #e0e7ef;
   position: relative;
   width: 369px;
   overflow-y: auto;
-  padding-bottom: 120px;
+  justify-content: end;
+  padding-bottom: 70px;
+  padding-top: 80px;
+  &.fullWidth {
+    width: 100%;
+    @media (max-width: 900px) {
+      width: 100vw;
+      padding-left: 0;
+      padding-right: 0;
+      left: 0;
+      border: none;
+      transform: none;
+    }
+  }
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 }
 .messageRow {
   display: flex;
@@ -16,7 +32,7 @@
   position: relative;
   margin-bottom: 8px;
   transition: background 0.2s;
-
+  width: 100%;
   &.mine {
     align-items: flex-end;
   }
@@ -106,16 +122,5 @@
   padding: 2px 7px;
   &:hover {
     background: #ddeafd;
-  }
-}
-
-@media (max-width: 600px) {
-  .messageBubble {
-    max-width: 90vw;
-    font-size: 0.97em;
-    padding: 7px 10px;
-  }
-  .chatMessages {
-    padding: 7px;
   }
 }

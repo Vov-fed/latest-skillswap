@@ -17,18 +17,21 @@ type Props = {
     setActiveMsgId: (msgId: string | null) => void;
     animatedReaction?: { messageId: string; emoji: string } | null;
     reactionMap: { [emoji: string]: { users: { _id: string; name: string; profilePicture: string }[] }[] };
+    fullWidth?: boolean;
+    mine?: boolean;
+    pickerClose?: (msgId: string | null) => void;
 };
 
-export const ReactionPicker: React.FC<Props> = ({userId, onReact, activeMsgId, setActiveMsgId, msg, reactionMap}) => {
+export const ReactionPicker: React.FC<Props> = ({userId, onReact, activeMsgId, setActiveMsgId, msg, reactionMap, fullWidth, mine, pickerClose}) => {
     const handleEmojiClick = (msgId: string, emoji: string) => {
     onReact(msgId, emoji);
     };
-    return <div className={styles.reactionsRow} data-reaction-picker>
+    return <div className={`${styles.reactionsRow} ${fullWidth ? styles.fullWidth : ""} ${mine ? styles.mine : ""}`} data-reaction-picker>
         {emojiOptions.map((emoji) => {
             const users = reactionMap[emoji] || [];
             const userReacted = users.some((r) => r.users.some((u) => u._id === userId));
             return (
-                <span key={emoji} className={styles.emojiBtn + (userReacted ? " " + styles.activeEmoji : "")} onClick={() => handleEmojiClick(msg._id, emoji)}>
+                <span key={emoji} className={`${styles.emojiBtn} ${userReacted ? styles.activeEmoji : ""}`} onClick={() => { handleEmojiClick(msg._id, emoji); if (pickerClose) pickerClose(msg._id); }}>
                     {emoji}
                 </span>
             );

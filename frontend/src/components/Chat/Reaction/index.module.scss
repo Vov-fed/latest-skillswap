@@ -11,6 +11,14 @@
     z-index: 30;
     display: flex;
     gap: 7px;
+    &.fullWidth {
+        left: 10px;
+        transform: none;
+        &.mine{
+            left: auto;
+            right: 20px;
+        }
+    }
 }
 
 .emojiBtn{
