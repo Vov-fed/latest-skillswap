@@ -18,11 +18,12 @@ This project includes a built-in Telegram-style real-time chat with read receipt
 ## 🚀 Features
 
 - 🔁 **Skill-based request system** – Users can post skills and request skills from others
-- 💬 **Real-time messaging** – Chat like Telegram with message reactions, read indicators, and animations
+- 💬 **Real-time messaging** – Chat like Telegram with message reactions, read indicators, and animations(some features will be available in future updates)
 - 📩 **Notification logic** – See updates live without reloading
-- 🎭 **Auth system** – Simple and secure account creation (no Google)
-- 💼 **Profile system** – Show your skills, accept/cancel requests, and manage active trades
+- 🎭 **Auth system** – Simple and secure account creation (no Google yet)
+- 💼 **Profile system** – Show your skills, edit/delete requests, and manage active trades
 - 🎨 **Modern design** – Responsive UI with TailwindCSS and thoughtful UX
+- 🛡️ **Amdin Features** - Admin can delete skills and see reported skill requests
 
 ---
 
